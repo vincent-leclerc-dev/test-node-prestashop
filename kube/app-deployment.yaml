@@ -1,0 +1,54 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: app-production
+  labels:
+    app: app-production
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+        env: production
+    spec:
+      containers:
+        - name: app
+          image: vleclercdev/test-node-prestashop:0.0.1
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            timeoutSeconds: 3
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            timeoutSeconds: 3
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 5
+          ports:
+          - name: app
+            containerPort: 3000
+          env:
+          - name: NODE_ENV
+            value: production
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
