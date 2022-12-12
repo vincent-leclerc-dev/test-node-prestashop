@@ -23,7 +23,7 @@
     "@cloudnative/health-connect": "^2.1.0",
     "@nestjs/common": "^6.10.14",
     "@nestjs/core": "^6.10.14",
-    "@nestjs/platform-express": "^6.10.14",
+    "@nestjs/platform-express": "^9.2.1",
     "prom-client": "^12.0.0",
     "prometheus-api-metrics": "^2.2.3",
     "reflect-metadata": "^0.1.13",
